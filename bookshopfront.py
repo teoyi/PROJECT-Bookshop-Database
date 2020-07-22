@@ -1,9 +1,10 @@
 import tkinter as tk
+import tkinter.scrolledtext as tkst
 
 class Frame1():
     def __init__(self,win):
-        frame = tk.Frame(win, bg = 'pink')
-        frame.pack(fill = 'both', expand = True)
+        frame = tk.Frame(win, relief = 'groove', bd = 1)
+        frame.pack(fill = 'x', expand = False)
 
         self.lbl1 = tk.Label(frame, text = 'Title:')
         self.t1 = tk.Entry(frame, width = 25)
@@ -11,45 +12,25 @@ class Frame1():
         self.t1.grid(row = 0, column = 1, sticky = 'e')
 
         self.lbl2 = tk.Label(frame, text = 'Author:')
-        self.t2 = tk.Entry(frame)
+        self.t2 = tk.Entry(frame, width = 25)
         self.lbl2.grid(row = 0, column = 2, ipadx = 10)
         self.t2.grid(row = 0, column = 3, sticky = 'e')
 
         self.lbl3 = tk.Label(frame, text = 'Year:')
-        self.t3 = tk.Entry(frame)
+        self.t3 = tk.Entry(frame, width = 25)
         self.lbl3.grid(row = 1, column = 0, ipady = 5)
         self.t3.grid(row = 1, column = 1)
 
         self.lbl4 = tk.Label(frame, text = 'ISBN:')
-        self.t4 = tk.Entry(frame)
+        self.t4 = tk.Entry(frame, width = 25)
         self.lbl4.grid(row = 1, column = 2)
         self.t4.grid(row = 1, column = 3)
-
-        print(self.t1.grid.size)
 
 class Frame2():
     def __init__(self,win):
 
         frame = tk.Frame(win)
-        frame.pack(fill = 'x', expand = True)
-
-        self.lbl3 = tk.Label(frame, text = 'Year:')
-        self.t3 = tk.Entry(frame)
-        self.lbl3.pack(side = 'left', fill = 'x', padx = 7, pady = 7)
-        self.t3.pack(side = 'left', fill = 'x', expand = 1, pady = 7)
-
-        self.lbl4 = tk.Label(frame, text = 'ISBN:')
-        self.t4 = tk.Entry(frame)
-        self.lbl4.pack(side = 'left', fill = 'x', padx = 7, pady = 5)
-        self.t4.pack(side = 'left', fill = 'x', expand = 1, padx = 7, pady = 5)
-
-
-
-class Frame3():
-    def __init__(self,win):
-
-        frame = tk.Frame(win)
-        frame.pack(fill = 'none', side = "left", expand = False)
+        frame.pack(fill = 'both', side = "left", expand = False)
 
         self.button1 = tk.Button(frame, text = 'View All', height = 2 , width = 10)
         self.button1.pack(side = 'top', fill = 'y', pady = 5, padx = 10)
@@ -69,32 +50,24 @@ class Frame3():
         self.button6 = tk.Button(frame, text = 'Close Entry', height = 2 , width = 10)
         self.button6.pack(side = 'top', fill = 'y', pady = 5, padx = 5)
 
-class Frame4():
+class Frame3(tk.Frame):
     def __init__(self,win):
 
         frame = tk.Frame(win)
         frame.pack(fill = 'both', side = "left", expand = True)
 
-        text = tk.Text(frame)
-
-        text.pack(side = 'left', padx = 7,pady = 7)
+        txtbox = tkst.ScrolledText(frame, width=40, height=10)
+        txtbox.pack(fill = 'both', expand=True, padx = 7, pady = 7)
 
 class main():
 
     win = tk.Tk()
 
     win.title('Book Shop')
-    win.geometry("600x370")
-    win.columnconfigure(0, weight = 0)
-    win.columnconfigure(1, weight = 1)
-    win.columnconfigure(2, weight = 0)
-    win.columnconfigure(3, weight = 1)
-
-
+    win.geometry("630x370")
     top1 = Frame1(win)
-    # top2 = Frame2(win)
-    bottomleft = Frame3(win)
-    bottomright = Frame4(win)
+    bottomleft = Frame2(win)
+    bottomright = Frame3(win)
     win.mainloop()
 
 if __name__ == '__main__':
