@@ -45,8 +45,8 @@ def update_entry(id, Title, Author, Year, ISBN):
 # Execute command to get values from db
 def view_all():
     connect = sqlite3.connect("lib.db")
-    cursor = conect.cursor()
-    cursor.execute("SELECT * FROM store")
+    cursor = connect.cursor()
+    cursor.execute("SELECT * FROM lib")
     rows = cursor.fetchall()
     connect.close()
     return rows
