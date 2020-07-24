@@ -1,0 +1,3 @@
+([('LIBtry',
+   '/Users/luke/Desktop/Python/GitClone/PROJECT-Bookshop-Database/dist/LIBtry',
+   'EXECUTABLE')],)

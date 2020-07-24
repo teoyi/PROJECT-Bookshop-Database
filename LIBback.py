@@ -1,8 +1,10 @@
 import sqlite3
+import os.path
+
 
 # Create a db to house the inputted data
 def create_table():
-    connect = sqlite3.connect("lib.db")
+    connect = sqlite3.connect('lib.db')
     cursor = connect.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS lib (id INTEGER PRIMARY KEY, Title TEXT, Author TEXT, Year INTEGER, ISBN INTEGER)")
     connect.commit()
@@ -37,7 +39,7 @@ def search_entry(Title = "", Author = "", Year = "", ISBN = ""):
 # Execute command to update a book based on ISBN
 def update_entry(id, Title, Author, Year, ISBN):
     connect = sqlite3.connect("lib.db")
-    cursor = conect.cursor()
+    cursor = connect.cursor()
     cursor.execute("UPDATE lib SET Title = ?, Author = ?, Year = ?, ISBN = ? WHERE id = ? ", (Title, Author, Year, ISBN, id))
     connect.commit()
     connect.close()
@@ -52,7 +54,7 @@ def view_all():
     return rows
 
 
-# create_table()
+create_table()
 # add_entry()
 # delete_entry()
 # search_entry()
