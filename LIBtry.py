@@ -1,11 +1,39 @@
 import tkinter as tk
-import tkinter.scrolledtext as tkst
 import LIBback
 
 class Widgets(tk.Frame):
 
     def __init__(self, win):
 
+        # Creating functions to be used in the application
+        def get_row(event):
+            index = self.lstbox.curselection()[0]
+            self.tuple_select = self.lstbox.get(index)
+            self.e1.delete(0, tk.END)
+            self.e1.insert(tk.END, self.tuple_select[1])
+            self.e2.delete(0, tk.END)
+            self.e2.insert(tk.END, self.tuple_select[2])
+            self.e3.delete(0, tk.END)
+            self.e3.insert(tk.END, self.tuple_select[3])
+            self.e4.delete(0, tk.END)
+            self.e4.insert(tk.END, self.tuple_select[4])
+
+        def view_cmd():
+            self.lstbox.delete(0, tk.END)
+            for row in LIBback.view_all():
+                self.lstbox.insert(tk.END, row)
+        def search_cmd():
+            self.lstbox.delete(0,tk.END)
+            for row in LIBback.search_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get()):
+                self.lstbox.insert(tk.END, row)
+        def add_cmd():
+            self.lstbox.delete(0, tk.END)
+            LIBback.add_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get())
+            self.lstbox.insert(tk.END, (self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get()))
+        def delete_cmd():
+            LIBback.delete_entry(self.tuple_select[0])
+
+        # Generating Frames
         self.win = win
         self.frame = tk.Frame(win, relief = 'groove')
         self.frame.pack(fill = 'x', expand = False)
@@ -14,7 +42,7 @@ class Widgets(tk.Frame):
         self.frame2 = tk.Frame(win)
         self.frame2.pack(fill = 'both', side = "left", expand = True)
 
-
+        # Entry and Label widgets
         self.title_val = tk.StringVar()
         self.lbl1 = tk.Label(self.frame, text = 'Title:')
         self.e1 = tk.Entry(self.frame, width = 25, textvariable = self.title_val)
@@ -39,42 +67,32 @@ class Widgets(tk.Frame):
         self.lbl4.grid(row = 1, column = 2)
         self.e4.grid(row = 1, column = 3)
 
-        self.button1 = tk.Button(self.frame1, text = 'View All', height = 2 , width = 10, command = self.view_cmd)
+        # Button widgets
+        self.button1 = tk.Button(self.frame1, text = 'View All', height = 2 , width = 10, command = view_cmd)
         self.button1.pack(side = 'top', fill = 'y', pady = 5, padx = 10)
 
-        self.button2 = tk.Button(self.frame1, text = 'Search Entry', height = 2 , width = 10, command = self.search_cmd)
+        self.button2 = tk.Button(self.frame1, text = 'Search Entry', height = 2 , width = 10, command = search_cmd)
         self.button2.pack(side = 'top', fill = 'y', pady = 5, padx = 5)
 
-        self.button3 = tk.Button(self.frame1, text = 'Add Entry', height = 2 , width = 10, command = self.add_cmd)
+        self.button3 = tk.Button(self.frame1, text = 'Add Entry', height = 2 , width = 10, command = add_cmd)
         self.button3.pack(side = 'top', fill = 'y', pady = 5, padx = 5)
 
         self.button4 = tk.Button(self.frame1, text = 'Update Entry', height = 2 , width = 10)#, command = update_cmd)
         self.button4.pack(side = 'top', fill = 'y', pady = 5, padx = 5)
 
-        self.button5 = tk.Button(self.frame1, text = 'Delete Entry', height = 2 , width = 10)#, command = delete_cmd)
+        self.button5 = tk.Button(self.frame1, text = 'Delete Entry', height = 2 , width = 10, command = delete_cmd)
         self.button5.pack(side = 'top', fill = 'y', pady = 5, padx = 5)
 
         self.button6 = tk.Button(self.frame1, text = 'Exit', height = 2 , width = 10)
         self.button6.pack(side = 'top', fill = 'y', pady = 5, padx = 5)
 
-        self.txtbox = tkst.ScrolledText(self.frame2, width=40, height=10)
-        self.txtbox.pack(fill = 'both', expand=True, padx = 7, pady = 7)
-        self.txtbox.bind()
+        # Listbox widget to display data
+        self.lstbox = tk.Listbox(self.frame2, width=40, height=10)
+        self.lstbox.pack(fill = 'both', expand=True, padx = 7, pady = 7)
+        self.lstbox.bind('<<ListboxSelect>>', get_row)
 
 
 
-    def view_cmd(self):
-        self.txtbox.delete('1.0', tk.END)
-        for row in LIBback.view_all():
-            self.txtbox.insert(tk.END, row)
-    def search_cmd(self):
-        self.txtbox.delete('1.0',tk.END)
-        for row in LIBback.search_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get()):
-            self.txtbox.insert(tk.END, row)
-    def add_cmd(self):
-        self.txtbox.delete('1.0', tk.END)
-        LIBback.add_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get())
-        self.txtbox.insert(tk.END, (self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get()))
 
 
 def main():
