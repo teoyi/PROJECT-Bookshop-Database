@@ -2,16 +2,18 @@ import tkinter as tk
 import tkinter.scrolledtext as tkst
 import LIBback
 
-class TopFrame():
+class Widgets(tk.Frame):
 
     def __init__(self, win):
 
         self.win = win
         self.frame = tk.Frame(win, relief = 'groove')
         self.frame.pack(fill = 'x', expand = False)
-        #self.topwidgets()
+        self.frame1 = tk.Frame(win)
+        self.frame1.pack(fill = 'both', side = "left", expand = False)
+        self.frame2 = tk.Frame(win)
+        self.frame2.pack(fill = 'both', side = "left", expand = True)
 
-    #def topwidgets(self):
 
         self.title_val = tk.StringVar()
         self.lbl1 = tk.Label(self.frame, text = 'Title:')
@@ -37,54 +39,13 @@ class TopFrame():
         self.lbl4.grid(row = 1, column = 2)
         self.e4.grid(row = 1, column = 3)
 
-class BottomFrame():
-
-    def __init__(self, win):
-
-        self.win = win
-        self.frame1 = tk.Frame(win)
-        self.frame1.pack(fill = 'both', side = "left", expand = False)
-        self.frame2 = tk.Frame(win)
-        self.frame2.pack(fill = 'both', side = "left", expand = True)
-        self.widgets()
-        self.search_cmd(self.win)
-        self.view_cmd()
-
-        self.add_cmd()
-
-
-    # Creating functions that connects to LIBback
-    def view_cmd(self):
-        self.txtbox.delete('1.0', tk.END)
-        for row in LIBback.view_all():
-            self.txtbox.insert(tk.END, row)
-
-    def search_cmd(self, win):
-        self.txtbox.delete('1.0',tk.END)
-        for row in LIBback.search_entry(win.title_val.get(), author_val.get(), year_val.get(), self.isbn_val.get()):
-            self.txtbox.insert(tk.END, row)
-
-    def add_cmd(self):
-        self.txtbox.delete('1.0', tk.END)
-        LIBback.add_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get())
-        self.txtbox.insert(END, view_cmd())
-
-    def update_cmd():
-        self.txtbox.delete(0, tk.END)
-
-    def delete_cmd():
-        self.txtbox.delete(0, tk.END)
-
-
-    # Frontend buttons of this frame
-    def widgets(self):
         self.button1 = tk.Button(self.frame1, text = 'View All', height = 2 , width = 10, command = self.view_cmd)
         self.button1.pack(side = 'top', fill = 'y', pady = 5, padx = 10)
 
         self.button2 = tk.Button(self.frame1, text = 'Search Entry', height = 2 , width = 10, command = self.search_cmd)
         self.button2.pack(side = 'top', fill = 'y', pady = 5, padx = 5)
 
-        self.button3 = tk.Button(self.frame1, text = 'Add Entry', height = 2 , width = 10)#, command = add_cmd)
+        self.button3 = tk.Button(self.frame1, text = 'Add Entry', height = 2 , width = 10, command = self.add_cmd)
         self.button3.pack(side = 'top', fill = 'y', pady = 5, padx = 5)
 
         self.button4 = tk.Button(self.frame1, text = 'Update Entry', height = 2 , width = 10)#, command = update_cmd)
@@ -102,13 +63,26 @@ class BottomFrame():
 
 
 
+    def view_cmd(self):
+        self.txtbox.delete('1.0', tk.END)
+        for row in LIBback.view_all():
+            self.txtbox.insert(tk.END, row)
+    def search_cmd(self):
+        self.txtbox.delete('1.0',tk.END)
+        for row in LIBback.search_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get()):
+            self.txtbox.insert(tk.END, row)
+    def add_cmd(self):
+        self.txtbox.delete('1.0', tk.END)
+        LIBback.add_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get())
+        self.txtbox.insert(tk.END, (self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get()))
+
+
 def main():
 
     win = tk.Tk()
-    win.title('Book Shop')
+    win.title('Library')
     win.geometry("630x370")
-    top = TopFrame(win)
-    bottom = BottomFrame(win)
+    widgets = Widgets(win)
     win.mainloop()
 
 if __name__ == '__main__':
