@@ -39,17 +39,16 @@ class TopFrame():
 
 class BottomFrame():
 
-    def __init__(self, win):
-
+    def __init__(self, win, top):
+        self.top = top
         self.win = win
         self.frame1 = tk.Frame(win)
         self.frame1.pack(fill = 'both', side = "left", expand = False)
         self.frame2 = tk.Frame(win)
         self.frame2.pack(fill = 'both', side = "left", expand = True)
         self.widgets()
-        self.search_cmd(self.win)
+        self.search_cmd()
         self.view_cmd()
-
         self.add_cmd()
 
 
@@ -59,15 +58,15 @@ class BottomFrame():
         for row in LIBback.view_all():
             self.txtbox.insert(tk.END, row)
 
-    def search_cmd(self, win):
+    def search_cmd(self):
         self.txtbox.delete('1.0',tk.END)
-        for row in LIBback.search_entry(win.title_val.get(), author_val.get(), year_val.get(), self.isbn_val.get()):
+        for row in LIBback.search_entry(self.top.title_val.get(), self.top.author_val.get(), self.top.year_val.get(), self.top.isbn_val.get()):
             self.txtbox.insert(tk.END, row)
 
     def add_cmd(self):
         self.txtbox.delete('1.0', tk.END)
-        LIBback.add_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get())
-        self.txtbox.insert(END, view_cmd())
+        LIBback.add_entry(self.top.title_val.get(), self.top.author_val.get(), self.top.year_val.get(), self.top.isbn_val.get())
+        self.txtbox.insert(tk.END, (self.top.title_val.get(), self.top.author_val.get(), self.top.year_val.get(), self.top.isbn_val.get()))
 
     def update_cmd():
         self.txtbox.delete(0, tk.END)
@@ -108,7 +107,7 @@ def main():
     win.title('Book Shop')
     win.geometry("630x370")
     top = TopFrame(win)
-    bottom = BottomFrame(win)
+    bottom = BottomFrame(win,top)
     win.mainloop()
 
 if __name__ == '__main__':
