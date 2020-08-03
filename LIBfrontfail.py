@@ -1,6 +1,8 @@
 import tkinter as tk
 import tkinter.scrolledtext as tkst
-import LIBback
+from LIBback import Database
+
+database = Database('lib.db')
 
 class TopFrame():
 
@@ -52,20 +54,20 @@ class BottomFrame():
         self.add_cmd()
 
 
-    # Creating functions that connects to LIBback
+    # Creating functions that connects to database
     def view_cmd(self):
         self.txtbox.delete('1.0', tk.END)
-        for row in LIBback.view_all():
+        for row in database.view_all():
             self.txtbox.insert(tk.END, row)
 
     def search_cmd(self):
         self.txtbox.delete('1.0',tk.END)
-        for row in LIBback.search_entry(self.top.title_val.get(), self.top.author_val.get(), self.top.year_val.get(), self.top.isbn_val.get()):
+        for row in database.search_entry(self.top.title_val.get(), self.top.author_val.get(), self.top.year_val.get(), self.top.isbn_val.get()):
             self.txtbox.insert(tk.END, row)
 
     def add_cmd(self):
         self.txtbox.delete('1.0', tk.END)
-        LIBback.add_entry(self.top.title_val.get(), self.top.author_val.get(), self.top.year_val.get(), self.top.isbn_val.get())
+        database.add_entry(self.top.title_val.get(), self.top.author_val.get(), self.top.year_val.get(), self.top.isbn_val.get())
         self.txtbox.insert(tk.END, (self.top.title_val.get(), self.top.author_val.get(), self.top.year_val.get(), self.top.isbn_val.get()))
 
     def update_cmd():

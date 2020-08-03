@@ -1,7 +1,8 @@
 import tkinter as tk
 import os
-import LIBback
+from LIBback import Database
 
+database = Database('lib.db')
 
 class Widgets(tk.Frame):
 
@@ -25,25 +26,25 @@ class Widgets(tk.Frame):
 
         def view_cmd():
             self.lstbox.delete(0, tk.END)
-            for row in LIBback.view_all():
+            for row in database.view_all():
                 self.lstbox.insert(tk.END, row)
 
         def search_cmd():
             self.lstbox.delete(0,tk.END)
-            for row in LIBback.search_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get()):
+            for row in database.search_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get()):
                 self.lstbox.insert(tk.END, row)
 
         def add_cmd():
             self.lstbox.delete(0, tk.END)
-            LIBback.add_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get())
+            database.add_entry(self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get())
             self.lstbox.insert(tk.END, (self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get()))
 
         def update_cmd():
-            LIBback.update_entry(self.tuple_select[0],self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get())
+            database.update_entry(self.tuple_select[0],self.title_val.get(), self.author_val.get(), self.year_val.get(), self.isbn_val.get())
             print(self.tuple_select[0],self.tuple_select[1],self.tuple_select[2],self.tuple_select[3],self.tuple_select[4])
 
         def delete_cmd():
-            LIBback.delete_entry(self.tuple_select[0])
+            database.delete_entry(self.tuple_select[0])
 
         def exit_cmd():
             self.win.destroy()
